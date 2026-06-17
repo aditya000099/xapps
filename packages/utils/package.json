@@ -1,0 +1,16 @@
+{
+  "name": "@xapps/utils",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./server": "./src/server.js",
+    "./client": "./src/client.js"
+  },
+  "dependencies": {
+    "winston": "^3.11.0",
+    "morgan": "^1.10.0",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "react-ga4": "^2.1.0"
+  }
+}

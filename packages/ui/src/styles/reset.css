@@ -1,0 +1,10 @@
+/**
+ * @xapps/ui — CSS Reset / Normalize
+ *
+ * Baseline reset to ensure consistent rendering across browsers.
+ * Includes box-sizing, margin resets, and sensible defaults.
+ */
+
+/* TODO: Add CSS reset rules */
+/* *, *::before, *::after { box-sizing: border-box; }
+   body { margin: 0; line-height: 1.5; -webkit-font-smoothing: antialiased; } */

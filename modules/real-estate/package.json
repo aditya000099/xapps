@@ -1,0 +1,6 @@
+{
+  "name": "@xapps/module-real-estate",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "type": "module"
+}

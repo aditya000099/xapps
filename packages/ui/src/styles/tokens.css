@@ -1,0 +1,17 @@
+/**
+ * @xapps/ui — Design Tokens
+ *
+ * CSS custom properties for colors, spacing, typography, radii, shadows.
+ * This is the design system foundation — all components reference these tokens.
+ */
+
+/* TODO: Define design tokens */
+/* :root {
+  --color-primary: #3b82f6;
+  --color-secondary: #6366f1;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --radius-sm: 4px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --font-sans: 'Inter', system-ui, sans-serif;
+} */

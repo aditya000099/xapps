@@ -1,0 +1,19 @@
+{
+  "name": "@xapps/crm-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "express": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "helmet": "^7.1.0",
+    "@xapps/db": "*",
+    "@xapps/auth": "*",
+    "@xapps/utils": "*"
+  }
+}

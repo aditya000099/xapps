@@ -1,0 +1,13 @@
+module.exports = {
+  name: '__MODULE_NAME__',
+  displayName: '__DISPLAY_NAME__',
+  icon: 'puzzle-piece',
+  version: '1.0.0',
+  description: 'Template for a new module',
+  basePath: '__BASE_PATH__',
+  apiPrefix: '__API_PREFIX__',
+  dependencies: [],
+  requiredPermissions: [],
+  databases: ['postgres'],
+  settings: {},
+};
