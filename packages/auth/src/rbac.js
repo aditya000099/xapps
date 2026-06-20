@@ -55,7 +55,8 @@ export const ROLES = {
     PERMISSIONS.DEALS_READ,
     PERMISSIONS.DEALS_WRITE,
     PERMISSIONS.INVOICES_READ, // Can view invoices but not create them
-    PERMISSIONS.REAL_ESTATE_ACCESS, // Can view real estate listings, but not edit
+    PERMISSIONS.REAL_ESTATE_ACCESS,
+    PERMISSIONS.REAL_ESTATE_WRITE, // Practically, sales reps manage properties
   ],
   support: [
     PERMISSIONS.CORE_DASHBOARD,

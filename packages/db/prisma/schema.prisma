@@ -51,6 +51,8 @@ model Contact {
   updatedAt DateTime @updatedAt
 
   supportTickets SupportTicket[]
+  realEstateViewings RealEstateViewing[]
+  realEstateOffers   RealEstateOffer[]
 }
 
 model Company {
@@ -92,6 +94,7 @@ model RealEstateAgent {
   updatedAt DateTime @updatedAt
 
   listings  RealEstateListing[]
+  viewings  RealEstateViewing[]
 }
 
 model RealEstateListing {
@@ -106,6 +109,9 @@ model RealEstateListing {
 
   agentId     String
   agent       RealEstateAgent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  
+  viewings    RealEstateViewing[]
+  offers      RealEstateOffer[]
 }
 
 // ==========================================
@@ -140,4 +146,37 @@ model Invoice {
 
   companyId     String?
   company       Company? @relation(fields: [companyId], references: [id])
+}
+
+model RealEstateViewing {
+  id          String   @id @default(cuid())
+  scheduledAt DateTime
+  status      String   @default("Scheduled") // Scheduled, Completed, Cancelled
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  listingId   String
+  listing     RealEstateListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  
+  agentId     String
+  agent       RealEstateAgent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  contactId   String
+  contact     Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+}
+
+model RealEstateOffer {
+  id            String   @id @default(cuid())
+  amount        Float
+  status        String   @default("Pending") // Pending, Accepted, Rejected
+  contingencies String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  listingId     String
+  listing       RealEstateListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  contactId     String
+  contact       Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
 }
