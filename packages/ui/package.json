@@ -1,6 +1,10 @@
 {
   "name": "@xapps/ui",
   "version": "1.0.0",
-  "main": "src/index.js",
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js",
+    "./styles": "./src/styles/theme.css",
+    "./theme": "./src/theme.jsx"
+  }
 }

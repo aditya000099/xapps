@@ -1,17 +1,4 @@
-/**
- * @xapps/db — Database Package Entry
- *
- * Exports database connections and utilities.
- * Central place for all DB access across the platform.
- *
- * Exports: postgres, mongo, redis, BaseModel, migrationRunner
- */
-
-// TODO: Implement and export database modules
-export default {
-  // postgres: require('./postgres'),
-  // mongo: require('./mongo'),
-  // redis: require('./redis'),
-  // BaseModel: require('./base-model'),
-  // migrationRunner: require('./migration-runner'),
-};
+export { default as prisma, prisma as default } from './postgres.js';
+export { connectMongo, mongooseClient } from './mongo.js';
+export { redis, cacheGet, cacheSet, cacheDel } from './redis.js';
+export { createQueue, createWorker, emailQueue, webhookQueue, importQueue } from './queue.js';

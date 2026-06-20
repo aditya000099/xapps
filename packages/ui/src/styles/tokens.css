@@ -1,17 +1,142 @@
 /**
  * @xapps/ui — Design Tokens
  *
- * CSS custom properties for colors, spacing, typography, radii, shadows.
- * This is the design system foundation — all components reference these tokens.
+ * All colors, spacing, typography, and radii are defined as CSS custom properties.
+ * Light and dark mode values swap automatically via [data-theme="dark"].
+ *
+ * To customize for a specific client, override these variables in the app's CSS.
  */
 
-/* TODO: Define design tokens */
-/* :root {
-  --color-primary: #3b82f6;
-  --color-secondary: #6366f1;
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --radius-sm: 4px;
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --font-sans: 'Inter', system-ui, sans-serif;
-} */
+:root {
+  /* ─── Brand ─── */
+  --xui-primary: #3b82f6;
+  --xui-primary-hover: #2563eb;
+  --xui-primary-foreground: #ffffff;
+
+  --xui-secondary: #6366f1;
+  --xui-secondary-hover: #4f46e5;
+  --xui-secondary-foreground: #ffffff;
+
+  --xui-accent: #8b5cf6;
+  --xui-accent-hover: #7c3aed;
+  --xui-accent-foreground: #ffffff;
+
+  /* ─── Semantic ─── */
+  --xui-success: #22c55e;
+  --xui-success-foreground: #ffffff;
+  --xui-warning: #f59e0b;
+  --xui-warning-foreground: #ffffff;
+  --xui-danger: #ef4444;
+  --xui-danger-hover: #dc2626;
+  --xui-danger-foreground: #ffffff;
+  --xui-info: #06b6d4;
+  --xui-info-foreground: #ffffff;
+
+  /* ─── Surfaces ─── */
+  --xui-background: #ffffff;
+  --xui-foreground: #0a0a0a;
+  --xui-card: #ffffff;
+  --xui-card-foreground: #0a0a0a;
+  --xui-muted: #f5f5f5;
+  --xui-muted-foreground: #737373;
+  --xui-popover: #ffffff;
+  --xui-popover-foreground: #0a0a0a;
+
+  /* ─── Borders & Rings ─── */
+  --xui-border: #e5e5e5;
+  --xui-input-border: #d4d4d4;
+  --xui-ring: #3b82f6;
+
+  /* ─── Sidebar (for app layouts) ─── */
+  --xui-sidebar-bg: #f8fafc;
+  --xui-sidebar-foreground: #334155;
+  --xui-sidebar-border: #e2e8f0;
+  --xui-sidebar-active: #eff6ff;
+  --xui-sidebar-active-foreground: #1d4ed8;
+
+  /* ─── Typography ─── */
+  --xui-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --xui-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ─── Spacing Scale ─── */
+  --xui-space-0: 0px;
+  --xui-space-1: 4px;
+  --xui-space-2: 8px;
+  --xui-space-3: 12px;
+  --xui-space-4: 16px;
+  --xui-space-5: 20px;
+  --xui-space-6: 24px;
+  --xui-space-8: 32px;
+  --xui-space-10: 40px;
+  --xui-space-12: 48px;
+  --xui-space-16: 64px;
+
+  /* ─── Radii ─── */
+  --xui-radius-sm: 4px;
+  --xui-radius-md: 8px;
+  --xui-radius-lg: 12px;
+  --xui-radius-xl: 16px;
+  --xui-radius-full: 9999px;
+
+  /* ─── Shadows ─── */
+  --xui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --xui-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --xui-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --xui-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  /* ─── Transitions ─── */
+  --xui-transition-fast: 150ms ease;
+  --xui-transition-base: 200ms ease;
+  --xui-transition-slow: 300ms ease;
+}
+
+/* ═══════════════════════════════════════ */
+/* Dark Mode                              */
+/* ═══════════════════════════════════════ */
+:root[data-theme="dark"] {
+  --xui-primary: #60a5fa;
+  --xui-primary-hover: #93c5fd;
+  --xui-primary-foreground: #0a0a0a;
+
+  --xui-secondary: #818cf8;
+  --xui-secondary-hover: #a5b4fc;
+  --xui-secondary-foreground: #0a0a0a;
+
+  --xui-accent: #a78bfa;
+  --xui-accent-hover: #c4b5fd;
+  --xui-accent-foreground: #0a0a0a;
+
+  --xui-success: #4ade80;
+  --xui-success-foreground: #0a0a0a;
+  --xui-warning: #fbbf24;
+  --xui-warning-foreground: #0a0a0a;
+  --xui-danger: #f87171;
+  --xui-danger-hover: #fca5a5;
+  --xui-danger-foreground: #0a0a0a;
+  --xui-info: #22d3ee;
+  --xui-info-foreground: #0a0a0a;
+
+  --xui-background: #0a0a0a;
+  --xui-foreground: #fafafa;
+  --xui-card: #171717;
+  --xui-card-foreground: #fafafa;
+  --xui-muted: #262626;
+  --xui-muted-foreground: #a3a3a3;
+  --xui-popover: #171717;
+  --xui-popover-foreground: #fafafa;
+
+  --xui-border: #262626;
+  --xui-input-border: #404040;
+  --xui-ring: #60a5fa;
+
+  --xui-sidebar-bg: #0f172a;
+  --xui-sidebar-foreground: #cbd5e1;
+  --xui-sidebar-border: #1e293b;
+  --xui-sidebar-active: #1e3a5f;
+  --xui-sidebar-active-foreground: #93c5fd;
+
+  --xui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --xui-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --xui-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --xui-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}

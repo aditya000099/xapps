@@ -1,0 +1,72 @@
+/**
+ * @xapps/ui — Tailwind v4 Theme Bridge
+ *
+ * Maps CSS custom properties from tokens.css into Tailwind's design system
+ * using @theme inline so values resolve at runtime (enabling dark/light swap).
+ *
+ * Import this in your app's CSS after @import "tailwindcss":
+ *   @import "tailwindcss";
+ *   @import "@xapps/ui/styles";
+ */
+
+@import './tokens.css';
+@import './reset.css';
+
+@theme inline {
+  /* Brand */
+  --color-primary: var(--xui-primary);
+  --color-primary-hover: var(--xui-primary-hover);
+  --color-primary-foreground: var(--xui-primary-foreground);
+
+  --color-secondary: var(--xui-secondary);
+  --color-secondary-hover: var(--xui-secondary-hover);
+  --color-secondary-foreground: var(--xui-secondary-foreground);
+
+  --color-accent: var(--xui-accent);
+  --color-accent-hover: var(--xui-accent-hover);
+  --color-accent-foreground: var(--xui-accent-foreground);
+
+  /* Semantic */
+  --color-success: var(--xui-success);
+  --color-success-foreground: var(--xui-success-foreground);
+  --color-warning: var(--xui-warning);
+  --color-warning-foreground: var(--xui-warning-foreground);
+  --color-danger: var(--xui-danger);
+  --color-danger-hover: var(--xui-danger-hover);
+  --color-danger-foreground: var(--xui-danger-foreground);
+  --color-info: var(--xui-info);
+  --color-info-foreground: var(--xui-info-foreground);
+
+  /* Surfaces */
+  --color-background: var(--xui-background);
+  --color-foreground: var(--xui-foreground);
+  --color-card: var(--xui-card);
+  --color-card-foreground: var(--xui-card-foreground);
+  --color-muted: var(--xui-muted);
+  --color-muted-foreground: var(--xui-muted-foreground);
+  --color-popover: var(--xui-popover);
+  --color-popover-foreground: var(--xui-popover-foreground);
+
+  /* Borders & Rings */
+  --color-border: var(--xui-border);
+  --color-input-border: var(--xui-input-border);
+  --color-ring: var(--xui-ring);
+
+  /* Sidebar */
+  --color-sidebar-bg: var(--xui-sidebar-bg);
+  --color-sidebar-foreground: var(--xui-sidebar-foreground);
+  --color-sidebar-border: var(--xui-sidebar-border);
+  --color-sidebar-active: var(--xui-sidebar-active);
+  --color-sidebar-active-foreground: var(--xui-sidebar-active-foreground);
+
+  /* Typography */
+  --font-sans: var(--xui-font-sans);
+  --font-mono: var(--xui-font-mono);
+
+  /* Radii */
+  --radius-sm: var(--xui-radius-sm);
+  --radius-md: var(--xui-radius-md);
+  --radius-lg: var(--xui-radius-lg);
+  --radius-xl: var(--xui-radius-xl);
+  --radius-full: var(--xui-radius-full);
+}

@@ -10,5 +10,134 @@ datasource db {
   url      = env("PG_DATABASE_URL")
 }
 
-// TODO: Add global shared models (like Tenants, Users). 
-// Module specific models should either be defined here as well or using Prisma's multi-schema feature.
+// Single-tenant database models for a standalone CRM instance
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String   // Hashed password
+  role      String   @default("user") // admin, manager, user
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique // The stateful session token stored in Redis/Cookie
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ==========================================
+// Core CRM Models
+// ==========================================
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String?
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id])
+  status    String   @default("Active") // Active, Inactive, Lead
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  supportTickets SupportTicket[]
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  website   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contacts  Contact[]
+  deals     Deal[]
+  invoices  Invoice[]
+}
+
+model Deal {
+  id                String   @id @default(cuid())
+  title             String
+  amount            Float
+  stage             String   // Lead, Qualification, Proposal, Won, Lost
+  expectedCloseDate DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  companyId         String?
+  company           Company? @relation(fields: [companyId], references: [id])
+}
+
+// ==========================================
+// Extra Modules: Real Estate
+// ==========================================
+
+model RealEstateAgent {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  role      String   // Broker, Buying Agent, Listing Agent
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  listings  RealEstateListing[]
+}
+
+model RealEstateListing {
+  id          String   @id @default(cuid())
+  title       String
+  price       Float
+  beds        Int
+  baths       Float
+  status      String   @default("Active") // Active, Pending, Sold
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  agentId     String
+  agent       RealEstateAgent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+}
+
+// ==========================================
+// Extra Modules: Ticketing
+// ==========================================
+
+model SupportTicket {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      String   @default("Open") // Open, In Progress, Resolved
+  priority    String   @default("Normal") // Low, Normal, High
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  contactId   String?
+  contact     Contact? @relation(fields: [contactId], references: [id])
+}
+
+// ==========================================
+// Extra Modules: Invoicing
+// ==========================================
+
+model Invoice {
+  id            String   @id @default(cuid())
+  invoiceNumber String   @unique
+  amount        Float
+  status        String   @default("Draft") // Draft, Sent, Paid, Overdue
+  dueDate       DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  companyId     String?
+  company       Company? @relation(fields: [companyId], references: [id])
+}
