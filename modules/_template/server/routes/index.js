@@ -1,6 +1,7 @@
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
 
-// router.use('/example', require('./example.routes'));
+const router = Router();
+
+// Add your routes here
 
 export default router;

@@ -1,5 +1,10 @@
 {
   "name": "@xapps/module-__MODULE_NAME__",
   "version": "1.0.0",
-  "main": "server/index.js"
+  "type": "module",
+  "exports": {
+    "./client": "./client/index.js",
+    "./server": "./server/index.js",
+    "./config": "./module.config.js"
+  }
 }

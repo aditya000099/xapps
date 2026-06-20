@@ -1,48 +1,45 @@
 # XApps — Agency Platform Monorepo
 
-A modular, app-centric monorepo for building and shipping vertical-specific software (CRM, LMS, Real Estate, etc.). 
+A modular monorepo for building vertical-specific software (CRM, LMS, etc.) with plug-and-play niche modules (Real Estate, School, etc.).
 
-This repository acts as the **master blueprint**. When onboarding a new customer, you clone this repo and customize their specific app (e.g., `apps/crm`) by plugging in the exact modules they need (e.g., `modules/real-estate`).
-
-## Table of Contents
-- [Architecture & How It Works](#architecture--how-it-works)
-- [Tech Stack](#tech-stack)
-- [Setup Guide](#setup-guide)
-- [Development Guide](#development-guide)
-- [Example: Plugging a Module into an App](#example-plugging-a-module-into-an-app)
-- [Contributing Guidelines](#contributing-guidelines)
+Clone this repo for each customer. Pick the app, plug in the modules they need, ship.
 
 ---
 
-## Architecture & How It Works
-
-We use an **App-Centric + Pluggable Module** architecture based on standard npm workspaces and native ES Modules (`import`/`export`).
+## Structure
 
 ```text
 xapps/
-├── apps/                    ← Standalone, concrete applications
-│   ├── crm/                 ← CRM App
-│   │   ├── client/          ← Vite React frontend
-│   │   └── server/          ← Express backend
-│   └── lms/                 ← LMS App
+├── apps/                         ← Standalone apps (one per product)
+│   ├── crm/
+│   │   ├── client/               ← React (Vite + Tailwind v4)
+│   │   └── server/               ← Express.js
+│   └── lms/
+│       ├── client/
+│       └── server/
 │
-├── modules/                 ← Reusable features / niches
-│   ├── real-estate/         ← Real Estate specific logic
-│   ├── school/              ← School specific logic
-│   └── tasks/               ← Shared task management
+├── modules/                      ← Plug-and-play feature modules
+│   ├── real-estate/              ← Real estate niche
+│   │   ├── client/               ← React pages, components, routes
+│   │   ├── server/               ← Express routes, controllers, services
+│   │   ├── module.config.js      ← Module metadata
+│   │   └── package.json          ← Exports: ./client, ./server, ./config
+│   └── _template/                ← Used by create-module script
 │
-└── packages/                ← Shared core libraries
-    ├── auth/
-    ├── db/
-    ├── ui/
-    └── utils/
+├── packages/                     ← Shared core libraries
+│   ├── auth/                     ← JWT, OAuth, RBAC
+│   ├── db/                       ← Prisma, MongoDB, Redis
+│   ├── ui/                       ← Shared React components
+│   ├── utils/                    ← Logger, rate limiter, analytics, error handler
+│   ├── config/                   ← Env loading, DB config
+│   ├── validation/               ← Zod/Joi schemas
+│   └── types/                    ← JSDoc type definitions
+│
+└── scripts/                      ← Dev tooling
+    ├── create-module.js          ← Scaffold a new module
+    ├── dev.js                    ← Start dev servers
+    └── setup.js                  ← First-time setup
 ```
-
-### The Concept
-
-- **The Apps (`apps/`)**: These are fully standalone, deployable products. A CRM app has its own `client/` and its own `server/`.
-- **The Modules (`modules/`)**: These are plug-and-play features. For example, if a Real Estate agency buys your CRM, you go into `apps/crm/package.json` and add `"@xapps/module-real-estate": "*"`. Then you simply import its routes into the CRM server, and its UI components into the CRM client.
-- **The Packages (`packages/`)**: These are foundational libraries used everywhere (Database connection, UI component system, Authentication).
 
 ---
 
@@ -50,117 +47,112 @@ xapps/
 
 | Layer      | Technology              |
 |------------|-------------------------|
-| Module Sys | Native ESM (`import`/`export`) |
-| Frontend   | React 19, Vite 6, React Router 7 |
+| Frontend   | React 19, Vite 6, Tailwind CSS v4 |
 | State Mgmt | Zustand & Redux         |
-| Backend    | Express.js 5            |
-| Primary DB | PostgreSQL (Prisma ORM) |
+| Backend    | Express.js 5 (ESM)      |
+| Database   | PostgreSQL (Prisma)     |
 | Cache      | Redis                   |
+| Logging    | Winston + Morgan        |
+| Security   | Helmet, express-rate-limit |
+| Analytics  | Google Analytics 4      |
 
 ---
 
-## Setup Guide
+## Setup
 
-### 1. Prerequisites
-- Node.js (v18+)
-- PostgreSQL
-
-### 2. Installation
-Install dependencies from the root. This will automatically link all workspaces.
 ```bash
-git clone <repo-url> xapps
-cd xapps
+git clone <repo-url> xapps && cd xapps
 npm install
-```
-
-### 3. Environment Variables
-```bash
 cp .env.example .env
 ```
-Ensure your `PG_DATABASE_URL` is set correctly.
 
-### 4. Database Setup
-```bash
-# Run migrations using the shared db package
-npm -w @xapps/db run migrate
-```
+### Start the CRM app
 
-### 5. Start Development
-To start a specific app (e.g., CRM):
 ```bash
-# Terminal 1: Start CRM Frontend
+# Terminal 1 — Frontend (http://localhost:5173)
 npm -w @xapps/crm-client run dev
 
-# Terminal 2: Start CRM Backend
+# Terminal 2 — Backend (http://localhost:4000)
 npm -w @xapps/crm-server run dev
 ```
 
 ---
 
-## Development Guide
+## How Modules Work
 
-### Writing Core Packages (`packages/`)
-Put code here if it is completely un-opinionated and universal. Examples: Button components (`@xapps/ui`), date formatting (`@xapps/utils`), database connection setup (`@xapps/db`).
+Every module exposes two clean entry points via its `package.json` exports:
 
-### Building Features/Niches (`modules/`)
-Put code here if it represents a specific business vertical or reusable feature block (e.g., `real-estate`, `school`, `tasks`). A module should export an Express router for the backend, and React components/pages for the frontend.
-
-### Assembling Applications (`apps/`)
-An app is essentially an empty shell that wires together packages and modules. You configure an app specifically for a customer. You import their required modules and configure the main layouts.
-
----
-
-## Example: Plugging a Module into an App
-
-Let's plug the `tasks` module into the `crm` app.
-
-### 1. Add the Dependency
-In `apps/crm/server/package.json` and `apps/crm/client/package.json`:
 ```json
 {
-  "dependencies": {
-    "@xapps/module-tasks": "*"
+  "exports": {
+    "./client": "./client/index.js",
+    "./server": "./server/index.js"
   }
 }
 ```
 
-### 2. Plug into the Backend
-In `apps/crm/server/src/index.js`:
+### Plugging a module into the backend
+
 ```javascript
-import express from 'express';
-import { taskRoutes } from '@xapps/module-tasks/server';
+// apps/crm/server/src/index.js
+import { routes as realEstateRoutes } from '@xapps/module-real-estate/server';
 
-const app = express();
-
-// Plug the module's routes into the core CRM app
-app.use('/api/tasks', taskRoutes);
-
-app.listen(4000);
+app.use('/api/real-estate', realEstateRoutes);
 ```
 
-### 3. Plug into the Frontend
-In `apps/crm/client/src/App.jsx`:
-```javascript
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { TaskBoard } from '@xapps/module-tasks/client';
+### Plugging a module into the frontend
 
-export default function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/tasks/*" element={<TaskBoard />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
+```javascript
+// apps/crm/client/src/App.jsx
+import { routes, navItems } from '@xapps/module-real-estate/client';
 ```
 
-That's it! The CRM app now has full task management capabilities.
+That's it. One import, one line to mount. No config files, no dynamic loaders.
 
 ---
 
-## Contributing Guidelines
+## Creating a New Module
 
-1. **Strict ESM**: Always use `import` and `export`. `require()` and `module.exports` are banned.
-2. **Module Isolation**: Modules must be self-contained. A module cannot import another module. They can only import from `packages/*`.
-3. **App Composition**: Apps (`apps/`) should contain as little business logic as possible. Their job is strictly to import and assemble modules.
+```bash
+npm run create-module -- --name=school --display="School Management"
+npm install
+```
+
+This scaffolds `modules/school/` with the full client + server structure, ready to import.
+
+---
+
+## Agency Workflow
+
+1. **Clone** this repo for a new customer
+2. **Pick the app** (e.g. `apps/crm`)
+3. **Add modules** to the app's `package.json`:
+   ```json
+   "@xapps/module-real-estate": "*",
+   "@xapps/module-school": "*"
+   ```
+4. **Import and mount** them in the app's server and client
+5. **Deploy** only the app folder the customer needs
+
+---
+
+## Shared Packages
+
+Packages separate **server** and **client** exports to prevent Node.js code from leaking into the browser:
+
+```javascript
+// In Express server code
+import { logger, requestLogger, globalRateLimiter } from '@xapps/utils/server';
+
+// In React client code
+import { initAnalytics, trackPageView } from '@xapps/utils/client';
+```
+
+---
+
+## Contributing
+
+1. **ESM only** — use `import`/`export` everywhere. No `require()`.
+2. **Modules are isolated** — a module can import from `packages/*` but never from another module.
+3. **Apps are thin** — they just wire modules and packages together. Keep business logic in modules.
+4. **Use shared UI** — always use `@xapps/ui` for components. Don't rebuild common UI inside modules.

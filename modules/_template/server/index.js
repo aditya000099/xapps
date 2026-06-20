@@ -1,7 +1,9 @@
-import routes from './routes';
+/**
+ * __DISPLAY_NAME__ Module — Server Entry
+ *
+ * Usage:
+ *   import { routes } from '@xapps/module-__MODULE_NAME__/server';
+ *   app.use('/api/__BASE_PATH__', routes);
+ */
 
-export default {
-  routes,
-  // services: {},
-  // migrationsPath: require('path').join(__dirname, 'migrations'),
-};
+export { default as routes } from './routes/index.js';

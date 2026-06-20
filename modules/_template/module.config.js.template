@@ -1,13 +1,13 @@
-module.exports = {
+export default {
   name: '__MODULE_NAME__',
   displayName: '__DISPLAY_NAME__',
   icon: 'puzzle-piece',
   version: '1.0.0',
-  description: 'Template for a new module',
-  basePath: '__BASE_PATH__',
-  apiPrefix: '__API_PREFIX__',
+  description: '__DISPLAY_NAME__ module',
+  basePath: '/__BASE_PATH__',
+  apiPrefix: '/api/__BASE_PATH__',
   dependencies: [],
-  requiredPermissions: [],
+  requiredPermissions: ['__MODULE_NAME__:access'],
   databases: ['postgres'],
   settings: {},
 };
