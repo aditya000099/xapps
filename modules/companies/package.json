@@ -1,0 +1,9 @@
+{
+  "name": "@xapps/module-companies",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./client": "./client/index.jsx",
+    "./server": "./server/index.js"
+  }
+}
