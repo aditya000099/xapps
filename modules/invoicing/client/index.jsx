@@ -1,16 +1,18 @@
 import { Receipt } from '@phosphor-icons/react';
 import Invoices from './pages/Invoices.jsx';
+import { companiesModule } from '@xapps/module-companies/client';
 
 export const invoicingModule = {
   name: 'invoicing',
+  dependencies: [companiesModule],
   routes: [
     {
-      path: '/invoicing',
+      path: '/invoices',
       element: <Invoices />,
-      requiredPermission: 'invoicing:access',
+      requiredPermission: 'invoices:read',
     }
   ],
   navItems: [
-    { label: 'Invoices', path: '/invoicing', icon: Receipt, requiredPermission: 'invoicing:access' }
+    { label: 'Invoices', path: '/invoices', icon: Receipt, requiredPermission: 'invoices:read' }
   ]
 };

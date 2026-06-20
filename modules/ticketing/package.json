@@ -5,5 +5,8 @@
   "exports": {
     "./client": "./client/index.jsx",
     "./server": "./server/index.js"
+  },
+  "dependencies": {
+    "@xapps/module-companies": "^1.0.0"
   }
 }

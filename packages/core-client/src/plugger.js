@@ -12,10 +12,21 @@ export class FrontendModuleRegistry {
    * @param {Array} module.routes React Router route definitions.
    * @param {Array} module.navItems Sidebar navigation items.
    */
-  plug(module) {
+  plug(module, isAutoPlugged = false) {
+    if (!module) return;
+    
     if (this.modules.has(module.name)) {
-      console.warn(`Module ${module.name} is already plugged in.`);
       return;
+    }
+
+    if (module.dependencies && Array.isArray(module.dependencies)) {
+      for (const dep of module.dependencies) {
+        this.plug(dep, true);
+      }
+    }
+
+    if (isAutoPlugged) {
+      console.warn(`⚠️ Warning: Module '${module.name}' was auto-plugged as a dependency. It is recommended to explicitly plug this module in your code.`);
     }
 
     this.modules.set(module.name, module);

@@ -10,10 +10,21 @@ export class BackendModuleRegistry {
    * @param {string} module.name The unique name of the module.
    * @param {Function} module.register A function that takes the Express app and mounts its routes.
    */
-  plug(module) {
+  plug(module, isAutoPlugged = false) {
+    if (!module) return;
+
     if (this.modules.has(module.name)) {
-      console.warn(`Module ${module.name} is already plugged in.`);
       return;
+    }
+
+    if (module.dependencies && Array.isArray(module.dependencies)) {
+      for (const dep of module.dependencies) {
+        this.plug(dep, true);
+      }
+    }
+
+    if (isAutoPlugged) {
+      console.warn(`⚠️ Warning: Module '${module.name}' was auto-plugged as a dependency. It is recommended to explicitly plug this module in your code.`);
     }
 
     try {
