@@ -18,6 +18,8 @@ async function main() {
   await prisma.session.deleteMany();
   await prisma.supportTicket.deleteMany();
   await prisma.invoice.deleteMany();
+  await prisma.realEstateViewing.deleteMany();
+  await prisma.realEstateOffer.deleteMany();
   await prisma.deal.deleteMany();
   await prisma.realEstateListing.deleteMany();
   await prisma.realEstateAgent.deleteMany();
@@ -88,8 +90,46 @@ async function main() {
     data: { name: 'Phil Coulson', email: 'phil@shield.gov', role: 'Broker', phone: '555-0199' }
   });
 
-  await prisma.realEstateListing.create({
+  const listing1 = await prisma.realEstateListing.create({
     data: { title: 'Stark Tower Penthouse', price: 25000000, beds: 5, baths: 6.5, status: 'Active', agentId: agent1.id }
+  });
+
+  const listing2 = await prisma.realEstateListing.create({
+    data: { title: 'Wayne Manor', price: 15000000, beds: 12, baths: 8.0, status: 'Active', agentId: agent1.id }
+  });
+
+  // Viewings
+  await prisma.realEstateViewing.create({
+    data: {
+      scheduledAt: new Date(Date.now() + 86400000), // Tomorrow
+      status: 'Scheduled',
+      notes: 'Wants to see the arc reactor.',
+      listingId: listing1.id,
+      agentId: agent1.id,
+      contactId: bruce.id // Bruce viewing Tony's penthouse
+    }
+  });
+
+  await prisma.realEstateViewing.create({
+    data: {
+      scheduledAt: new Date(Date.now() - 86400000), // Yesterday
+      status: 'Completed',
+      notes: 'Very interested, might make an offer.',
+      listingId: listing2.id,
+      agentId: agent1.id,
+      contactId: tony.id // Tony viewing Wayne Manor
+    }
+  });
+
+  // Offers
+  await prisma.realEstateOffer.create({
+    data: {
+      amount: 14500000,
+      status: 'Pending',
+      contingencies: 'Requires structural inspection of the batcave.',
+      listingId: listing2.id,
+      contactId: tony.id
+    }
   });
 
   console.log('Database Seeding Complete!');
