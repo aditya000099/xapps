@@ -31,42 +31,23 @@ export function Dashboard() {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <h3 className="text-sm font-medium text-muted-foreground">Total Contacts</h3>
-          </CardHeader>
-          <CardBody>
-            <p className="text-3xl font-bold text-foreground">{data.stats.totalContacts.toLocaleString()}</p>
-            <p className="text-sm text-muted-foreground mt-1">Across all accounts</p>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardHeader>
-            <h3 className="text-sm font-medium text-muted-foreground">Active Contacts</h3>
-          </CardHeader>
-          <CardBody>
-            <p className="text-3xl font-bold text-foreground">{data.stats.activeContacts.toLocaleString()}</p>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardHeader>
-            <h3 className="text-sm font-medium text-muted-foreground">Pipeline Value</h3>
-          </CardHeader>
-          <CardBody>
-            <p className="text-3xl font-bold text-foreground">
-              ${(data.stats.pipelineValue / 1000000).toFixed(1)}M
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">Expected this quarter</p>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardHeader>
-            <h3 className="text-sm font-medium text-muted-foreground">Conversion Rate</h3>
-          </CardHeader>
-          <CardBody>
-            <p className="text-3xl font-bold text-foreground">{data.stats.conversionRate}%</p>
-          </CardBody>
-        </Card>
+        {Object.entries(data.stats || {}).map(([key, stat]) => (
+          <Card key={key}>
+            <CardHeader>
+              <h3 className="text-sm font-medium text-muted-foreground">{key}</h3>
+            </CardHeader>
+            <CardBody>
+              <p className="text-3xl font-bold text-foreground">
+                {typeof stat.value === 'number' && !key.includes('Rate') 
+                  ? stat.value.toLocaleString() 
+                  : stat.value}
+              </p>
+              {stat.desc && (
+                <p className="text-sm text-muted-foreground mt-1">{stat.desc}</p>
+              )}
+            </CardBody>
+          </Card>
+        ))}
       </div>
 
       <h2 className="text-xl font-bold text-foreground pt-4">Recent Activity</h2>

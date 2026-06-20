@@ -6,5 +6,11 @@ export const ticketingBackendModule = {
   dependencies: [companiesBackendModule],
   register: (app) => {
     app.use('/api/ticketing', ticketingRouter);
+  },
+  getStats: async (prisma) => {
+    const openTickets = await prisma.supportTicket.count({ where: { status: 'Open' } });
+    return {
+      'Open Tickets': { value: openTickets, desc: 'Awaiting resolution' }
+    };
   }
 };

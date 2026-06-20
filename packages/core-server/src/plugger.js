@@ -39,4 +39,20 @@ export class BackendModuleRegistry {
   getPluggedModules() {
     return Array.from(this.modules.keys());
   }
+
+  async aggregateStats(prisma) {
+    const stats = {};
+    const modulesArr = Array.from(this.modules.values());
+    for (const module of modulesArr) {
+      if (typeof module.getStats === 'function') {
+        try {
+          const modStats = await module.getStats(prisma);
+          Object.assign(stats, modStats);
+        } catch (err) {
+          console.error(`Failed to get stats for module ${module.name}:`, err);
+        }
+      }
+    }
+    return stats;
+  }
 }

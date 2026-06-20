@@ -7,9 +7,8 @@ const router = Router();
 // GET /api/dashboard/stats
 router.get('/stats', requireAuth, requirePermission(PERMISSIONS.CORE_DASHBOARD), async (req, res) => {
   try {
-    // Basic aggregation for dashboard
-    const totalContacts = await prisma.contact.count();
-    const activeContacts = await prisma.contact.count({ where: { status: 'Active' } });
+    const registry = req.app.locals.registry;
+    const stats = registry ? await registry.aggregateStats(prisma) : {};
     
     // Recent activity (e.g. 5 latest contacts added)
     const recentActivity = await prisma.contact.findMany({
@@ -19,12 +18,7 @@ router.get('/stats', requireAuth, requirePermission(PERMISSIONS.CORE_DASHBOARD),
     });
 
     res.json({
-      stats: {
-        totalContacts,
-        activeContacts,
-        pipelineValue: 1250000, // Dummy for now since Deals module isn't built
-        conversionRate: 18.5,
-      },
+      stats,
       recentActivity: recentActivity.map(c => ({
         id: c.id,
         contact: c.name,
