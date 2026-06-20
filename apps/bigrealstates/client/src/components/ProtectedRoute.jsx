@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { Spinner } from '@xapps/ui';
 
-export function ProtectedRoute({ requiredPermission }) {
+export function ProtectedRoute({ requiredPermission, children }) {
   const { user, isLoading, hasPermission } = useAuth();
   const location = useLocation();
 
@@ -28,5 +28,5 @@ export function ProtectedRoute({ requiredPermission }) {
     );
   }
 
-  return <Outlet />;
+  return children ? children : <Outlet />;
 }

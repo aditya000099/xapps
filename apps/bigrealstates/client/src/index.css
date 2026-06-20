@@ -3,3 +3,6 @@
 
 /* Scan the shared UI package for Tailwind classes */
 @source "../../../../packages/ui/src";
+
+/* Scan the modules package for Tailwind classes */
+@source "../../../../modules";
