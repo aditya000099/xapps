@@ -4,16 +4,25 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "start": "node --env-file=.env src/index.js",
+    "dev": "node --env-file=.env --watch src/index.js"
   },
   "dependencies": {
-    "express": "^5.0.0",
+    "@xapps/auth": "^1.0.0",
+    "@xapps/core-server": "^1.0.0",
+    "@xapps/db": "^1.0.0",
+    "@xapps/module-companies": "^1.0.0",
+    "@xapps/module-contacts": "^1.0.0",
+    "@xapps/module-deals": "^1.0.0",
+    "@xapps/module-invoicing": "^1.0.0",
+    "@xapps/module-real-estate": "^1.0.0",
+    "@xapps/module-ticketing": "^1.0.0",
+    "@xapps/utils": "^1.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
+    "express": "^5.0.0",
     "helmet": "^7.1.0",
-    "@xapps/db": "*",
-    "@xapps/auth": "*",
-    "@xapps/utils": "*"
+    "pdfkit": "^0.19.1"
   }
 }
