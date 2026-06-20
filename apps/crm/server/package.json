@@ -16,6 +16,7 @@
     "@xapps/module-deals": "^1.0.0",
     "@xapps/module-invoicing": "^1.0.0",
     "@xapps/module-real-estate": "^1.0.0",
+    "@xapps/module-settings": "^1.0.0",
     "@xapps/module-ticketing": "^1.0.0",
     "@xapps/utils": "^1.0.0",
     "cookie-parser": "^1.4.7",

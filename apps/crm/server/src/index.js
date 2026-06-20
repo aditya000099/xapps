@@ -45,12 +45,21 @@ async function bootstrap() {
 
     // Plug Modules
     const registry = new BackendModuleRegistry(app);
+    app.locals.registry = registry; // Make registry accessible to routes like dashboard
     registry.plug(companiesBackendModule);
     registry.plug(contactsBackendModule);
     registry.plug(dealsBackendModule);
     registry.plug(realEstateBackendModule);
     registry.plug(ticketingBackendModule);
     registry.plug(invoicingBackendModule);
+    
+    // Import settings dynamically since it might not be at the top level
+    try {
+      const { settingsBackendModule } = await import('@xapps/module-settings/server');
+      registry.plug(settingsBackendModule);
+    } catch(e) {
+      console.error('Failed to auto-plug settings module:', e);
+    }
 
     app.get('/api/health', async (req, res) => {
       // Check connections

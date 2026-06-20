@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
-    "@xapps/ui": "^1.0.0",
     "@xapps/core-client": "^1.0.0",
     "@xapps/module-contacts": "^1.0.0",
     "@xapps/module-deals": "^1.0.0",
     "@xapps/module-real-estate": "^1.0.0",
+    "@xapps/module-settings": "^1.0.0",
+    "@xapps/ui": "^1.0.0",
     "@xapps/utils": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

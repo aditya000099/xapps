@@ -13,6 +13,7 @@ import { dealsModule } from '@xapps/module-deals/client';
 import { realEstateModule } from '@xapps/module-real-estate/client';
 import { ticketingModule } from '@xapps/module-ticketing/client';
 import { invoicingModule } from '@xapps/module-invoicing/client';
+import { settingsModule } from '@xapps/module-settings/client';
 
 const registry = new FrontendModuleRegistry();
 
@@ -23,6 +24,7 @@ registry.plug(dealsModule);
 registry.plug(realEstateModule);
 registry.plug(ticketingModule);
 registry.plug(invoicingModule);
+registry.plug(settingsModule);
 
 export function getRegisteredModules() {
   return {

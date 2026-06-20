@@ -1,0 +1,21 @@
+{
+  "name": "@xapps/module-settings",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./client": "./client/index.jsx",
+    "./server": "./server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@xapps/db": "*",
+    "@xapps/auth": "*"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@phosphor-icons/react": "^2.1.0",
+    "@xapps/ui": "*"
+  }
+}
