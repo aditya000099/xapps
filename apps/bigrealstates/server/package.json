@@ -1,0 +1,24 @@
+{
+  "name": "@xapps/bigrealstates-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env src/index.js",
+    "dev": "node --env-file=.env --watch src/index.js"
+  },
+  "dependencies": {
+    "@xapps/auth": "^1.0.0",
+    "@xapps/db": "^1.0.0",
+    "@xapps/utils": "^1.0.0",
+    "@xapps/core-server": "^1.0.0",
+    "@xapps/module-contacts": "^1.0.0",
+    "@xapps/module-deals": "^1.0.0",
+    "@xapps/module-real-estate": "^1.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^5.0.0",
+    "helmet": "^7.1.0"
+  }
+}

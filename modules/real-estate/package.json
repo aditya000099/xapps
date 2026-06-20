@@ -1,6 +1,12 @@
 {
   "name": "@xapps/module-real-estate",
   "version": "1.0.0",
-  "main": "server/index.js",
-  "type": "module"
+  "type": "module",
+  "exports": {
+    "./client": "./client/index.jsx",
+    "./server": "./server/index.js"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.10"
+  }
 }

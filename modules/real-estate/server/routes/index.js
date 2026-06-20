@@ -1,20 +1,16 @@
 /**
  * Real Estate API Routes
  *
- * Mounted at /api/real-estate by the module loader.
- *
- * TODO: Add route files:
- *   /listings   → listings.routes.js
- *   /properties → properties.routes.js
- *   /agents     → agents.routes.js
- *   /viewings   → viewings.routes.js
+ * This router is mounted by the consuming app at whatever prefix it chooses.
+ * Example: app.use('/api/real-estate', routes);
  */
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
 
-// router.use('/listings', require('./listings.routes'));
-// router.use('/properties', require('./properties.routes'));
-// router.use('/agents', require('./agents.routes'));
-// router.use('/viewings', require('./viewings.routes'));
+const router = Router();
+
+// router.use('/listings', listingsRouter);
+// router.use('/properties', propertiesRouter);
+// router.use('/agents', agentsRouter);
+// router.use('/viewings', viewingsRouter);
 
 export default router;
