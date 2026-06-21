@@ -5,6 +5,8 @@
   "workspaces": [
     "apps/*/client",
     "apps/*/server",
+    "custom/*/client",
+    "custom/*/server",
     "modules/*",
     "packages/*"
   ],
